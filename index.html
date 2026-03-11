@@ -2,69 +2,74 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle de Pagamentos - Formatura com Histórico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Controle de Pagamentos - Formatura</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            padding: 30px;
+            border-radius: 15px;
+            padding: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         h1 {
             text-align: center;
             color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         h1 i {
             color: #667eea;
-            margin-right: 10px;
         }
 
         /* Abas de navegação */
         .tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 10px;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: #f0f0f0;
+            padding: 5px;
+            border-radius: 50px;
         }
 
         .tab {
-            padding: 12px 30px;
-            background: #f5f5f5;
+            flex: 1;
+            padding: 12px 5px;
+            background: transparent;
             border: none;
-            border-radius: 8px 8px 0 0;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 0.9em;
             font-weight: 600;
             color: #666;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .tab:hover {
-            background: #e0e0e0;
+            justify-content: center;
+            gap: 5px;
+            white-space: nowrap;
         }
 
         .tab.active {
@@ -80,23 +85,22 @@
             display: block;
         }
 
-        /* Estilos existentes */
+        /* Controles do mês */
         .mes-ano {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .controles-mes {
             display: flex;
-            gap: 15px;
+            justify-content: space-between;
             align-items: center;
             background: #f5f5f5;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 50px;
+            width: 100%;
         }
 
         .controles-mes button {
@@ -105,45 +109,78 @@
             font-size: 1.5em;
             cursor: pointer;
             color: #667eea;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
+            min-width: 44px;
         }
 
-        .controles-mes button:hover:not(:disabled) {
+        .controles-mes button:active {
+            background: #667eea;
+            color: white;
+            transform: scale(0.95);
+        }
+
+        #mesAtual {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            flex: 1;
+        }
+
+        /* Botões de ação */
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            width: 100%;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-adicionar {
             background: #667eea;
             color: white;
         }
 
-        .controles-mes button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .btn-limpar {
+            background: #f56565;
+            color: white;
         }
 
-        #mesAtual {
-            font-size: 1.5em;
-            font-weight: bold;
-            min-width: 200px;
-            text-align: center;
+        .btn-exportar {
+            background: #48bb78;
+            color: white;
         }
 
+        /* Adicionar pessoa */
         .adicionar-pessoa {
             display: flex;
+            flex-direction: column;
             gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
         .adicionar-pessoa input {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px 15px;
+            width: 100%;
+            padding: 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 25px;
             font-size: 1em;
             transition: border-color 0.3s;
         }
@@ -153,82 +190,44 @@
             border-color: #667eea;
         }
 
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .btn-adicionar {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-adicionar:hover {
-            background: #5a67d8;
-            transform: translateY(-2px);
-        }
-
-        .btn-limpar {
-            background: #f56565;
-            color: white;
-        }
-
-        .btn-limpar:hover {
-            background: #e53e3e;
-        }
-
-        .btn-exportar {
-            background: #48bb78;
-            color: white;
-        }
-
-        .btn-exportar:hover {
-            background: #38a169;
-        }
-
+        /* Tabela responsiva */
         .tabela-container {
             overflow-x: auto;
-            margin-bottom: 30px;
+            margin: 0 -5px 20px -5px;
+            padding: 0 5px;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            min-width: 600px;
         }
 
         th, td {
-            padding: 15px;
+            padding: 12px 8px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
+            font-size: 0.9em;
         }
 
         th {
             background-color: #f8f9fa;
             font-weight: 600;
             color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .status-pagamento {
-            width: 120px;
-            text-align: center;
-        }
-
+        /* Status badges */
         .status-badge {
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 20px;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 500;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .pago {
@@ -241,13 +240,20 @@
             color: #742a2a;
         }
 
+        /* Botões de ação na tabela */
         .btn-toggle {
-            padding: 6px 12px;
+            padding: 8px 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.85em;
             transition: all 0.3s;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .btn-toggle:active {
+            transform: scale(0.95);
         }
 
         .btn-pago {
@@ -255,59 +261,55 @@
             color: white;
         }
 
-        .btn-pago:hover {
-            background: #38a169;
-        }
-
         .btn-pendente {
             background: #f56565;
             color: white;
         }
 
-        .btn-pendente:hover {
-            background: #e53e3e;
-        }
-
         .btn-remover {
             background: #f56565;
             color: white;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.85em;
             transition: all 0.3s;
+            margin-left: 5px;
         }
 
-        .btn-remover:hover {
-            background: #e53e3e;
+        .btn-remover:active {
+            transform: scale(0.95);
         }
 
+        /* Upload de comprovante */
         .upload-container {
             display: flex;
             flex-direction: column;
             gap: 5px;
-            min-width: 200px;
+            min-width: 150px;
         }
 
         .upload-btn {
             background: #4299e1;
             color: white;
-            padding: 6px 12px;
+            padding: 8px 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.85em;
             transition: all 0.3s;
             text-align: center;
+            white-space: nowrap;
         }
 
-        .upload-btn:hover {
+        .upload-btn:active {
+            transform: scale(0.95);
             background: #3182ce;
         }
 
         .file-info {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #666;
             display: flex;
             align-items: center;
@@ -321,33 +323,25 @@
             display: inline-flex;
             align-items: center;
             gap: 3px;
-        }
-
-        .comprovante-link:hover {
-            text-decoration: underline;
+            padding: 5px;
         }
 
         .remover-comprovante {
             color: #f56565;
             cursor: pointer;
             font-size: 1.2em;
-            line-height: 1;
-            padding: 0 5px;
+            padding: 5px;
         }
 
-        .remover-comprovante:hover {
-            color: #e53e3e;
-        }
-
+        /* Cards de resumo */
         .resumo {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             margin-bottom: 20px;
         }
 
@@ -357,162 +351,70 @@
 
         .resumo-item span {
             display: block;
-            font-size: 2em;
+            font-size: 1.8em;
             font-weight: bold;
         }
 
         .resumo-item small {
-            font-size: 1em;
+            font-size: 0.85em;
             opacity: 0.9;
         }
 
-        .acoes-gerais {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            overflow: auto;
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .close-modal {
-            position: absolute;
-            right: 35px;
-            top: 15px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close-modal:hover {
-            color: #bbb;
-        }
-
-        #modalImage {
-            width: 100%;
-            height: auto;
-        }
-
-        .espaco-uso {
-            font-size: 0.8em;
-            color: #666;
-            text-align: right;
-            margin-top: 10px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #48bb78;
-            transition: width 0.3s;
-        }
-
-        /* Estilos para o histórico */
+        /* Histórico responsivo */
         .historico-pessoa {
             background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
         }
 
         .pessoa-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+            flex-direction: column;
+            gap: 10px;
             cursor: pointer;
         }
 
         .pessoa-nome {
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #333;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             gap: 10px;
         }
 
         .pessoa-status {
             font-size: 0.9em;
             color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .seta {
             font-size: 1.2em;
             transition: transform 0.3s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .seta.expandida {
             transform: rotate(90deg);
         }
 
-        .meses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .mes-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .mes-nome {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .mes-status {
-            font-size: 0.9em;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
         .estatisticas-pessoa {
-            display: flex;
-            gap: 20px;
-            margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
             padding: 10px;
-            background: #e9ecef;
-            border-radius: 8px;
+            background: white;
+            border-radius: 10px;
         }
 
         .estatistica-item {
@@ -526,86 +428,278 @@
         }
 
         .estatistica-label {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #666;
         }
 
-        .filtros {
+        .meses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .mes-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .mes-nome {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .mes-status {
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
             flex-wrap: wrap;
         }
 
+        /* Filtros */
+        .filtros {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
         .filtro-input {
-            flex: 1;
-            min-width: 200px;
-            padding: 10px;
+            width: 100%;
+            padding: 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 25px;
             font-size: 1em;
         }
 
         .filtro-select {
-            padding: 10px;
+            width: 100%;
+            padding: 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 25px;
             font-size: 1em;
-            min-width: 150px;
+            background: white;
         }
 
+        /* Métricas globais */
         .resumo-global {
             background: white;
             border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 20px;
         }
 
         .resumo-global h3 {
             color: #333;
             margin-bottom: 15px;
+            font-size: 1.2em;
         }
 
         .metricas-globais {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
 
         .metrica {
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
         }
 
         .metrica-valor {
-            font-size: 1.8em;
+            font-size: 1.4em;
             font-weight: bold;
             color: #667eea;
         }
 
         .metrica-label {
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: #666;
+        }
+
+        /* Ações gerais */
+        .acoes-gerais {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .espaco-uso {
+            font-size: 0.85em;
+            color: #666;
+            text-align: center;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #48bb78;
+            transition: width 0.3s;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 95%;
+            max-height: 95%;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+        }
+
+        /* Ajustes para telas pequenas */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .tab {
+                font-size: 0.8em;
+                padding: 10px 3px;
+            }
+
+            .resumo {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .resumo-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 5px 10px;
+            }
+
+            .resumo-item span {
+                font-size: 1.4em;
+            }
+
+            .estatisticas-pessoa {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .estatistica-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .estatistica-valor {
+                font-size: 1em;
+            }
+
+            .metricas-globais {
+                grid-template-columns: 1fr;
+            }
+
+            .meses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Ajustes para telas médias */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .resumo {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .metricas-globais {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Melhorias de toque */
+        button, 
+        .btn,
+        .tab,
+        .upload-btn,
+        .comprovante-link,
+        .remover-comprovante {
+            touch-action: manipulation;
+        }
+
+        /* Evitar zoom em inputs no iOS */
+        input, select {
+            font-size: 16px;
+        }
+
+        /* Scroll suave */
+        .tabela-container {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>
-            <i>🎓</i> 
-            Controle de Pagamentos - Formatura
+            <span>🎓</span>
+            Controle de Pagamentos
         </h1>
 
         <!-- Abas de navegação -->
         <div class="tabs">
             <button class="tab active" onclick="mudarAba('mensal')">
-                📅 Controle Mensal
+                <span>📅</span> Mensal
             </button>
             <button class="tab" onclick="mudarAba('historico')">
-                📊 Histórico por Pessoa
+                <span>📊</span> Histórico
             </button>
         </div>
 
@@ -618,14 +712,14 @@
                     <button onclick="proximoMes()" id="btnProximo">→</button>
                 </div>
                 <button class="btn btn-limpar" onclick="limparTodosPagamentos()">
-                    Limpar Todos os Pagamentos do Mês
+                    <span>🗑️</span> Limpar Pagamentos do Mês
                 </button>
             </div>
 
             <div class="adicionar-pessoa">
                 <input type="text" id="nomePessoa" placeholder="Digite o nome da pessoa..." maxlength="50">
                 <button class="btn btn-adicionar" onclick="adicionarPessoa()">
-                    ➕ Adicionar Pessoa
+                    <span>➕</span> Adicionar Pessoa
                 </button>
             </div>
 
@@ -634,7 +728,7 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th class="status-pagamento">Status</th>
+                            <th>Status</th>
                             <th>Comprovante</th>
                             <th>Ações</th>
                         </tr>
@@ -647,19 +741,19 @@
             <div class="resumo">
                 <div class="resumo-item">
                     <span id="totalPessoas">0</span>
-                    <small>Total de Pessoas</small>
+                    <small>Pessoas</small>
                 </div>
                 <div class="resumo-item">
                     <span id="totalPago">0</span>
-                    <small>Pagamentos Confirmados</small>
+                    <small>Pagos</small>
                 </div>
                 <div class="resumo-item">
                     <span id="totalPendente">0</span>
-                    <small>Pagamentos Pendentes</small>
+                    <small>Pendentes</small>
                 </div>
                 <div class="resumo-item">
                     <span id="totalComprovantes">0</span>
-                    <small>Comprovantes Anexados</small>
+                    <small>Comprovantes</small>
                 </div>
             </div>
         </div>
@@ -667,7 +761,7 @@
         <!-- Aba de Histórico -->
         <div id="abaHistorico" class="tab-content">
             <div class="filtros">
-                <input type="text" class="filtro-input" id="filtroNome" placeholder="Filtrar por nome..." oninput="filtrarHistorico()">
+                <input type="text" class="filtro-input" id="filtroNome" placeholder="Buscar por nome..." oninput="filtrarHistorico()">
                 <select class="filtro-select" id="filtroStatus" onchange="filtrarHistorico()">
                     <option value="todos">Todos os status</option>
                     <option value="em-dia">Em dia</option>
@@ -675,7 +769,7 @@
                     <option value="parcial">Parcial</option>
                 </select>
                 <button class="btn btn-exportar" onclick="exportarHistorico()">
-                    📥 Exportar Relatório
+                    <span>📥</span> Exportar Relatório
                 </button>
             </div>
 
@@ -693,10 +787,10 @@
 
         <div class="acoes-gerais">
             <button class="btn btn-limpar" onclick="limparTodosDados()">
-                🗑️ Limpar Todos os Dados
+                <span>🗑️</span> Limpar Todos os Dados
             </button>
             <div class="espaco-uso">
-                <div>Espaço utilizado: <span id="espacoUsado">0 KB</span> / <span id="espacoLimite">5 MB</span></div>
+                <div>Espaço: <span id="espacoUsado">0 KB</span> / <span id="espacoLimite">5 MB</span></div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressoEspaco" style="width: 0%"></div>
                 </div>
@@ -725,7 +819,7 @@
 
         // Carregar dados salvos
         function carregarDados() {
-            const dadosSalvos = localStorage.getItem('controleFormaturaComprovantes');
+            const dadosSalvos = localStorage.getItem('controleFormaturaResponsivo');
             if (dadosSalvos) {
                 try {
                     const dados = JSON.parse(dadosSalvos);
@@ -754,7 +848,7 @@
         // Salvar dados
         function salvarDados() {
             try {
-                localStorage.setItem('controleFormaturaComprovantes', JSON.stringify({ pessoas }));
+                localStorage.setItem('controleFormaturaResponsivo', JSON.stringify({ pessoas }));
                 atualizarEspacoUtilizado();
                 atualizarHistorico();
             } catch (e) {
@@ -768,7 +862,6 @@
 
         // Mudar de aba
         function mudarAba(aba) {
-            // Atualizar classes das abas
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
@@ -813,13 +906,11 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            // Validar tipo de arquivo
             if (!file.type.startsWith('image/')) {
                 alert('Por favor, selecione apenas imagens!');
                 return;
             }
 
-            // Validar tamanho (máximo 2MB por imagem)
             if (file.size > 2 * 1024 * 1024) {
                 alert('A imagem deve ter no máximo 2MB!');
                 return;
@@ -833,10 +924,8 @@
                         pessoa.comprovantes = {};
                     }
                     
-                    // Criar chave única para o mês
                     const chaveMes = `${anoSelecionado}-${mes}`;
                     
-                    // Salvar comprovante
                     pessoa.comprovantes[chaveMes] = {
                         data: e.target.result,
                         nome: file.name,
@@ -844,7 +933,6 @@
                         tamanho: file.size
                     };
                     
-                    // Marcar como pago automaticamente
                     if (!pessoa.pagamentos[mes]) {
                         pessoa.pagamentos[mes] = false;
                     }
@@ -883,7 +971,6 @@
                         delete pessoa.comprovantes[chaveMes];
                     }
                     
-                    // Voltar status para pendente
                     if (pessoa.pagamentos[mes]) {
                         pessoa.pagamentos[mes] = false;
                     }
@@ -902,10 +989,6 @@
         // Atualizar display do mês atual
         function atualizarDisplayMes() {
             document.getElementById('mesAtual').textContent = `${meses[mesSelecionado]} ${anoSelecionado}`;
-            
-            // Desabilitar botões se necessário (opcional)
-            document.getElementById('btnAnterior').disabled = false;
-            document.getElementById('btnProximo').disabled = false;
         }
 
         // Navegar entre meses
@@ -963,7 +1046,6 @@
                 }
                 pessoa.pagamentos[mes] = !pessoa.pagamentos[mes];
                 
-                // Se marcar como pendente, perguntar se quer remover o comprovante
                 if (!pessoa.pagamentos[mes]) {
                     const chaveMes = `${anoSelecionado}-${mes}`;
                     if (pessoa.comprovantes?.[chaveMes]) {
@@ -1034,7 +1116,7 @@
         function limparTodosDados() {
             if (confirm('Tem certeza que deseja apagar TODOS os dados? Esta ação não pode ser desfeita!')) {
                 pessoas = [];
-                localStorage.removeItem('controleFormaturaComprovantes');
+                localStorage.removeItem('controleFormaturaResponsivo');
                 atualizarTabela();
                 atualizarHistorico();
                 atualizarEspacoUtilizado();
@@ -1068,7 +1150,7 @@
             if (pessoas.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="4" style="text-align: center; padding: 40px; color: #666;">
+                        <td colspan="4" style="text-align: center; padding: 30px; color: #666;">
                             Nenhuma pessoa cadastrada. Adicione uma pessoa para começar!
                         </td>
                     </tr>
@@ -1089,8 +1171,9 @@
                 if (temComp) {
                     comprovanteHtml = `
                         <div class="file-info">
-                            <span>📎 ${nomeComp.substring(0, 20)}${nomeComp.length > 20 ? '...' : ''}</span>
-                            <a href="#" class="comprovante-link" onclick="visualizarComprovante(${pessoa.id}, ${mesSelecionado})">👁️ Ver</a>
+                            <span>📎</span>
+                            <span>${nomeComp.substring(0, 15)}${nomeComp.length > 15 ? '...' : ''}</span>
+                            <a href="#" class="comprovante-link" onclick="visualizarComprovante(${pessoa.id}, ${mesSelecionado})">👁️</a>
                             <span class="remover-comprovante" onclick="removerComprovante(${pessoa.id}, ${mesSelecionado})">❌</span>
                         </div>
                     `;
@@ -1100,7 +1183,7 @@
                             <input type="file" id="file-${pessoa.id}" accept="image/*" style="display: none;" 
                                    onchange="uploadComprovante(${pessoa.id}, ${mesSelecionado}, event)">
                             <button class="upload-btn" onclick="document.getElementById('file-${pessoa.id}').click()">
-                                📎 Anexar Comprovante
+                                📎 Anexar
                             </button>
                         </div>
                     `;
@@ -1109,21 +1192,19 @@
                 html += `
                     <tr>
                         <td>${pessoa.nome}</td>
-                        <td class="status-pagamento">
+                        <td>
                             <span class="status-badge ${pago ? 'pago' : 'pendente'}">
-                                ${pago ? '✅ Pago' : '⏳ Pendente'}
+                                ${pago ? '✅' : '⏳'}
                             </span>
                         </td>
-                        <td>
-                            ${comprovanteHtml}
-                        </td>
+                        <td>${comprovanteHtml}</td>
                         <td>
                             <button class="btn-toggle ${pago ? 'btn-pendente' : 'btn-pago'}" 
                                     onclick="togglePagamento(${pessoa.id}, ${mesSelecionado})">
-                                ${pago ? 'Marcar Pendente' : 'Marcar Pago'}
+                                ${pago ? 'Pendente' : 'Pago'}
                             </button>
                             <button class="btn-remover" onclick="removerPessoa(${pessoa.id})">
-                                🗑️ Remover
+                                🗑️
                             </button>
                         </td>
                     </tr>
@@ -1156,8 +1237,8 @@
             
             if (pessoasFiltradas.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        Nenhuma pessoa encontrada com os filtros selecionados.
+                    <div style="text-align: center; padding: 30px; color: #666;">
+                        Nenhuma pessoa encontrada.
                     </div>
                 `;
                 return;
@@ -1193,23 +1274,23 @@
                                 <span class="status-badge ${statusClass}">${statusText}</span>
                             </div>
                             <div class="pessoa-status">
-                                <span>${mesesPagos}/${totalMeses} meses pagos</span>
+                                <span>${mesesPagos}/${totalMeses}</span>
                                 <span class="seta" id="seta-${pessoa.id}">▶</span>
                             </div>
                         </div>
                         
                         <div class="estatisticas-pessoa">
                             <div class="estatistica-item">
-                                <div class="estatistica-valor">${mesesPagos}</div>
-                                <div class="estatistica-label">Meses pagos</div>
+                                <span class="estatistica-valor">${mesesPagos}</span>
+                                <span class="estatistica-label">Pagos</span>
                             </div>
                             <div class="estatistica-item">
-                                <div class="estatistica-valor">${totalMeses - mesesPagos}</div>
-                                <div class="estatistica-label">Meses pendentes</div>
+                                <span class="estatistica-valor">${totalMeses - mesesPagos}</span>
+                                <span class="estatistica-label">Pendentes</span>
                             </div>
                             <div class="estatistica-item">
-                                <div class="estatistica-valor">${((mesesPagos / totalMeses) * 100).toFixed(1)}%</div>
-                                <div class="estatistica-label">Percentual</div>
+                                <span class="estatistica-valor">${((mesesPagos / totalMeses) * 100).toFixed(0)}%</span>
+                                <span class="estatistica-label">Total</span>
                             </div>
                         </div>
                         
@@ -1242,7 +1323,6 @@
             const mesAtual = hoje.getMonth();
             const anoAtual = hoje.getFullYear();
             
-            // Considerar últimos 12 meses ou desde o início
             for (let i = 0; i < 12; i++) {
                 let mes = mesAtual - i;
                 let ano = anoAtual;
@@ -1252,7 +1332,7 @@
                     ano -= 1;
                 }
                 
-                if (ano >= 2024) { // A partir de 2024
+                if (ano >= 2024) {
                     const chaveMes = `${ano}-${mes}`;
                     const pago = pessoa.pagamentos && pessoa.pagamentos[mes] === true;
                     const temComprovante = pessoa.comprovantes && pessoa.comprovantes[chaveMes];
@@ -1275,7 +1355,6 @@
             const mesAtual = hoje.getMonth();
             const anoAtual = hoje.getFullYear();
             
-            // Verificar último mês
             const ultimoPagamento = pagamentos[pagamentos.length - 1];
             
             if (!ultimoPagamento) return 'parcial';
@@ -1284,7 +1363,6 @@
                 return ultimoPagamento.pago ? 'em-dia' : 'atrasado';
             }
             
-            // Verificar se tem pagamento nos últimos 3 meses
             const pagamentosRecentes = pagamentos.slice(-3);
             const todosPagos = pagamentosRecentes.every(p => p.pago);
             
@@ -1298,12 +1376,12 @@
             
             pagamentos.forEach(p => {
                 const statusClass = p.pago ? 'pago' : 'pendente';
-                const statusText = p.pago ? '✅ Pago' : '⏳ Pendente';
+                const statusText = p.pago ? '✅' : '⏳';
                 const comprovanteIcon = p.temComprovante ? '📎' : '';
                 
                 html += `
                     <div class="mes-card">
-                        <div class="mes-nome">${meses[p.mes]} ${p.ano}</div>
+                        <div class="mes-nome">${meses[p.mes].substring(0,3)}/${p.ano}</div>
                         <div class="mes-status">
                             <span class="status-badge ${statusClass}">${statusText}</span>
                             ${comprovanteIcon}
@@ -1338,27 +1416,27 @@
                 else pessoasParciais++;
             });
             
-            const totalMesesPossiveis = pessoas.length * 12; // Considerando 12 meses
+            const totalMesesPossiveis = pessoas.length * 12;
             const percentualGeral = totalMesesPossiveis > 0 
-                ? ((totalPagamentos / totalMesesPossiveis) * 100).toFixed(1) 
+                ? ((totalPagamentos / totalMesesPossiveis) * 100).toFixed(0) 
                 : 0;
             
             const metricasHtml = `
                 <div class="metrica">
                     <div class="metrica-valor">${totalPagamentos}</div>
-                    <div class="metrica-label">Total de pagamentos</div>
+                    <div class="metrica-label">Pagamentos</div>
                 </div>
                 <div class="metrica">
                     <div class="metrica-valor">${totalComprovantes}</div>
-                    <div class="metrica-label">Comprovantes anexados</div>
+                    <div class="metrica-label">Comprovantes</div>
                 </div>
                 <div class="metrica">
                     <div class="metrica-valor">${pessoasEmDia}</div>
-                    <div class="metrica-label">Pessoas em dia</div>
+                    <div class="metrica-label">Em dia</div>
                 </div>
                 <div class="metrica">
                     <div class="metrica-valor">${pessoasParciais}</div>
-                    <div class="metrica-label">Pagamentos parciais</div>
+                    <div class="metrica-label">Parcial</div>
                 </div>
                 <div class="metrica">
                     <div class="metrica-valor">${pessoasAtrasadas}</div>
@@ -1366,7 +1444,7 @@
                 </div>
                 <div class="metrica">
                     <div class="metrica-valor">${percentualGeral}%</div>
-                    <div class="metrica-label">Percentual geral</div>
+                    <div class="metrica-label">Geral</div>
                 </div>
             `;
             
@@ -1379,26 +1457,22 @@
 
         function exportarHistorico() {
             let relatorio = "RELATÓRIO DE PAGAMENTOS - FORMATURA\n";
-            relatorio += "=".repeat(50) + "\n\n";
-            relatorio += `Data de geração: ${new Date().toLocaleDateString('pt-BR')}\n`;
+            relatorio += "=".repeat(40) + "\n\n";
+            relatorio += `Data: ${new Date().toLocaleDateString('pt-BR')}\n`;
             relatorio += `Total de pessoas: ${pessoas.length}\n\n`;
             
             pessoas.sort((a, b) => a.nome.localeCompare(b.nome));
             
             pessoas.forEach(pessoa => {
                 relatorio += `\n👤 ${pessoa.nome}\n`;
-                relatorio += "-".repeat(30) + "\n";
+                relatorio += "-".repeat(20) + "\n";
                 
                 const pagamentos = calcularPagamentosPessoa(pessoa);
                 const pagos = pagamentos.filter(p => p.pago).length;
-                const comComprovante = pagamentos.filter(p => p.temComprovante).length;
                 
-                relatorio += `Total de meses: ${pagamentos.length}\n`;
-                relatorio += `Meses pagos: ${pagos}\n`;
-                relatorio += `Meses pendentes: ${pagamentos.length - pagos}\n`;
-                relatorio += `Comprovantes anexados: ${comComprovante}\n\n`;
+                relatorio += `Meses pagos: ${pagos}/${pagamentos.length}\n`;
+                relatorio += `Percentual: ${((pagos/pagamentos.length)*100).toFixed(0)}%\n\n`;
                 
-                relatorio += "Detalhamento por mês:\n";
                 pagamentos.forEach(p => {
                     const status = p.pago ? "PAGO" : "PENDENTE";
                     const comprovante = p.temComprovante ? " (com comprovante)" : "";
@@ -1407,7 +1481,6 @@
                 relatorio += "\n";
             });
             
-            // Criar arquivo para download
             const blob = new Blob([relatorio], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
