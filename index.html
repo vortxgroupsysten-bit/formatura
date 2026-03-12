@@ -3,686 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Controle de Pagamentos - Formatura</title>
+    <title>Controle de Pagamento - Formatura</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #4a90e2;
             min-height: 100vh;
             padding: 10px;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 600px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
             padding: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         h1 {
             text-align: center;
             color: #333;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        h1 i {
-            color: #667eea;
-        }
-
-        /* Abas de navegação */
-        .tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-            background: #f0f0f0;
-            padding: 5px;
-            border-radius: 50px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px 5px;
-            background: transparent;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            color: #666;
-            transition: all 0.3s;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
-            white-space: nowrap;
-        }
-
-        .tab.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         /* Controles do mês */
-        .mes-ano {
+        .mes-controle {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .controles-mes {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             background: #f5f5f5;
             padding: 10px;
-            border-radius: 50px;
-            width: 100%;
+            border-radius: 30px;
+            margin-bottom: 15px;
         }
 
-        .controles-mes button {
+        .mes-controle button {
             background: none;
             border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #667eea;
-            width: 44px;
-            height: 44px;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            min-width: 44px;
+            color: #4a90e2;
+            font-weight: bold;
         }
 
-        .controles-mes button:active {
-            background: #667eea;
+        .mes-controle button:active {
+            background: #4a90e2;
             color: white;
-            transform: scale(0.95);
         }
 
         #mesAtual {
-            font-size: 1.2em;
             font-weight: bold;
-            text-align: center;
-            flex: 1;
+            font-size: 1.1rem;
         }
 
-        /* Botões de ação */
+        /* Botões principais */
         .btn {
-            padding: 12px 20px;
             border: none;
+            padding: 12px 20px;
             border-radius: 25px;
-            font-size: 1em;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
             width: 100%;
-            min-height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            margin-bottom: 10px;
         }
 
         .btn:active {
-            transform: scale(0.98);
+            opacity: 0.8;
         }
 
-        .btn-adicionar {
-            background: #667eea;
+        .btn-azul {
+            background: #4a90e2;
             color: white;
         }
 
-        .btn-limpar {
-            background: #f56565;
+        .btn-vermelho {
+            background: #e24a4a;
             color: white;
         }
 
-        .btn-exportar {
-            background: #48bb78;
+        .btn-verde {
+            background: #4ae24a;
             color: white;
         }
 
         /* Adicionar pessoa */
-        .adicionar-pessoa {
+        .add-pessoa {
             display: flex;
-            flex-direction: column;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        .adicionar-pessoa input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
+        .add-pessoa input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
             border-radius: 25px;
-            font-size: 1em;
-            transition: border-color 0.3s;
+            font-size: 1rem;
         }
 
-        .adicionar-pessoa input:focus {
+        .add-pessoa input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #4a90e2;
         }
 
-        /* Tabela responsiva */
-        .tabela-container {
-            overflow-x: auto;
-            margin: 0 -5px 20px -5px;
-            padding: 0 5px;
-            -webkit-overflow-scrolling: touch;
+        .add-pessoa button {
+            width: auto;
+            padding: 12px 20px;
+            margin: 0;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
+        /* Lista de pessoas */
+        .lista-pessoas {
+            margin-bottom: 15px;
         }
 
-        th, td {
-            padding: 12px 8px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 0.9em;
+        .pessoa-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
+        .info-pessoa {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 2;
+        }
+
+        .nome-pessoa {
+            font-weight: bold;
             color: #333;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
 
-        /* Status badges */
-        .status-badge {
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 500;
-            display: inline-block;
-            white-space: nowrap;
+        .status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
 
         .pago {
-            background: #c6f6d5;
-            color: #22543d;
+            background: #4ae24a;
+            color: white;
         }
 
         .pendente {
-            background: #fed7d7;
-            color: #742a2a;
+            background: #e24a4a;
+            color: white;
         }
 
-        /* Botões de ação na tabela */
-        .btn-toggle {
-            padding: 8px 12px;
+        /* Botões de ação */
+        .acoes {
+            display: flex;
+            gap: 5px;
+        }
+
+        .acao-btn {
             border: none;
-            border-radius: 20px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
             cursor: pointer;
-            font-size: 0.85em;
-            transition: all 0.3s;
-            white-space: nowrap;
-            min-width: 120px;
+            font-weight: bold;
         }
 
-        .btn-toggle:active {
-            transform: scale(0.95);
-        }
-
-        .btn-pago {
-            background: #48bb78;
+        .btn-pagar {
+            background: #4ae24a;
             color: white;
         }
 
         .btn-pendente {
-            background: #f56565;
+            background: #e24a4a;
             color: white;
         }
 
         .btn-remover {
-            background: #f56565;
+            background: #ff4444;
             color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85em;
-            transition: all 0.3s;
-            margin-left: 5px;
         }
 
-        .btn-remover:active {
-            transform: scale(0.95);
-        }
-
-        /* Upload de comprovante */
-        .upload-container {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            min-width: 150px;
-        }
-
-        .upload-btn {
-            background: #4299e1;
-            color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85em;
-            transition: all 0.3s;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .upload-btn:active {
-            transform: scale(0.95);
-            background: #3182ce;
-        }
-
-        .file-info {
-            font-size: 0.8em;
-            color: #666;
+        /* Comprovante */
+        .comprovante-area {
             display: flex;
             align-items: center;
             gap: 5px;
-            flex-wrap: wrap;
+        }
+
+        .comprovante-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
         }
 
         .comprovante-link {
-            color: #4299e1;
+            color: #4a90e2;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            padding: 5px;
+            font-size: 0.9rem;
         }
 
-        .remover-comprovante {
-            color: #f56565;
-            cursor: pointer;
-            font-size: 1.2em;
-            padding: 5px;
-        }
-
-        /* Cards de resumo */
+        /* Resumo */
         .resumo {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4a90e2, #764ba2);
             color: white;
             padding: 15px;
-            border-radius: 15px;
+            border-radius: 10px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .resumo-item {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             text-align: center;
+            margin-bottom: 15px;
         }
 
         .resumo-item span {
             display: block;
-            font-size: 1.8em;
+            font-size: 1.5rem;
             font-weight: bold;
         }
 
-        .resumo-item small {
-            font-size: 0.85em;
-            opacity: 0.9;
-        }
-
-        /* Histórico responsivo */
-        .historico-pessoa {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 15px;
+        /* Abas */
+        .abas {
+            display: flex;
+            gap: 5px;
             margin-bottom: 15px;
         }
 
-        .pessoa-header {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .aba {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 10px;
+            font-weight: bold;
             cursor: pointer;
         }
 
-        .pessoa-nome {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+        .aba.ativa {
+            background: #4a90e2;
+            color: white;
         }
 
-        .pessoa-status {
-            font-size: 0.9em;
-            color: #666;
+        .conteudo-aba {
+            display: none;
+        }
+
+        .conteudo-aba.ativa {
+            display: block;
+        }
+
+        /* Histórico simplificado */
+        .card-historico {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 8px;
         }
 
-        .seta {
-            font-size: 1.2em;
-            transition: transform 0.3s;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .seta.expandida {
-            transform: rotate(90deg);
-        }
-
-        .estatisticas-pessoa {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-            padding: 10px;
-            background: white;
-            border-radius: 10px;
-        }
-
-        .estatistica-item {
-            text-align: center;
-        }
-
-        .estatistica-valor {
-            font-size: 1.2em;
+        .card-nome {
             font-weight: bold;
-            color: #667eea;
+            font-size: 1.1rem;
         }
 
-        .estatistica-label {
-            font-size: 0.75em;
+        .card-status {
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+
+        .meses-pagos {
+            font-size: 0.9rem;
             color: #666;
+            margin-bottom: 8px;
         }
 
-        .meses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .mes-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 10px;
+        .lista-meses {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .mes-nome {
-            font-weight: bold;
-            color: #333;
-            font-size: 0.9em;
-        }
-
-        .mes-status {
-            font-size: 0.8em;
-            display: flex;
-            align-items: center;
-            gap: 5px;
             flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .mes-badge {
+            background: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            border: 1px solid #ddd;
+        }
+
+        .mes-badge.pago {
+            background: #4ae24a;
+            color: white;
+            border: none;
         }
 
         /* Filtros */
         .filtros {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
         .filtro-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 1em;
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 20px;
         }
 
         .filtro-select {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 1em;
-            background: white;
-        }
-
-        /* Métricas globais */
-        .resumo-global {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .resumo-global h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-        }
-
-        .metricas-globais {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .metrica {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .metrica-valor {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .metrica-label {
-            font-size: 0.8em;
-            color: #666;
-        }
-
-        /* Ações gerais */
-        .acoes-gerais {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .espaco-uso {
-            font-size: 0.85em;
-            color: #666;
-            text-align: center;
             padding: 10px;
-            background: #f5f5f5;
-            border-radius: 10px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #48bb78;
-            transition: width 0.3s;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            background: white;
         }
 
         /* Modal */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
         }
 
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 95%;
-            max-height: 95%;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .close-modal {
+        .modal-conteudo {
+            max-width: 90%;
+            max-height: 90%;
             position: absolute;
-            right: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .fechar-modal {
+            position: absolute;
             top: 20px;
+            right: 20px;
             color: white;
-            font-size: 35px;
-            font-weight: bold;
+            font-size: 2rem;
             cursor: pointer;
-            z-index: 1001;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-        }
-
-        /* Ajustes para telas pequenas */
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .tab {
-                font-size: 0.8em;
-                padding: 10px 3px;
-            }
-
-            .resumo {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .resumo-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 5px 10px;
-            }
-
-            .resumo-item span {
-                font-size: 1.4em;
-            }
-
-            .estatisticas-pessoa {
-                grid-template-columns: 1fr;
-                gap: 5px;
-            }
-
-            .estatistica-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .estatistica-valor {
-                font-size: 1em;
-            }
-
-            .metricas-globais {
-                grid-template-columns: 1fr;
-            }
-
-            .meses-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Ajustes para telas médias */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .resumo {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .metricas-globais {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Melhorias de toque */
-        button, 
-        .btn,
-        .tab,
-        .upload-btn,
-        .comprovante-link,
-        .remover-comprovante {
-            touch-action: manipulation;
-        }
-
-        /* Evitar zoom em inputs no iOS */
-        input, select {
-            font-size: 16px;
-        }
-
-        /* Scroll suave */
-        .tabela-container {
-            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -690,54 +381,36 @@
     <div class="container">
         <h1>
             <span>🎓</span>
-            Controle de Pagamentos
+            Controle da Formatura
         </h1>
 
-        <!-- Abas de navegação -->
-        <div class="tabs">
-            <button class="tab active" onclick="mudarAba('mensal')">
-                <span>📅</span> Mensal
-            </button>
-            <button class="tab" onclick="mudarAba('historico')">
-                <span>📊</span> Histórico
-            </button>
+        <!-- Abas -->
+        <div class="abas">
+            <button class="aba ativa" onclick="mudarAba('mensal')">📅 Mensal</button>
+            <button class="aba" onclick="mudarAba('historico')">📊 Histórico</button>
         </div>
 
-        <!-- Aba de Controle Mensal -->
-        <div id="abaMensal" class="tab-content active">
-            <div class="mes-ano">
-                <div class="controles-mes">
-                    <button onclick="mesAnterior()" id="btnAnterior">←</button>
-                    <span id="mesAtual">Fevereiro 2024</span>
-                    <button onclick="proximoMes()" id="btnProximo">→</button>
-                </div>
-                <button class="btn btn-limpar" onclick="limparTodosPagamentos()">
-                    <span>🗑️</span> Limpar Pagamentos do Mês
-                </button>
+        <!-- Aba Mensal -->
+        <div id="abaMensal" class="conteudo-aba ativa">
+            <!-- Controle do mês -->
+            <div class="mes-controle">
+                <button onclick="mesAnterior()">←</button>
+                <span id="mesAtual">Fevereiro 2024</span>
+                <button onclick="proximoMes()">→</button>
             </div>
 
-            <div class="adicionar-pessoa">
-                <input type="text" id="nomePessoa" placeholder="Digite o nome da pessoa..." maxlength="50">
-                <button class="btn btn-adicionar" onclick="adicionarPessoa()">
-                    <span>➕</span> Adicionar Pessoa
-                </button>
+            <!-- Adicionar pessoa -->
+            <div class="add-pessoa">
+                <input type="text" id="nomePessoa" placeholder="Nome da pessoa">
+                <button class="btn btn-azul" onclick="adicionarPessoa()">Adicionar</button>
             </div>
 
-            <div class="tabela-container">
-                <table id="tabelaPagamentos">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Status</th>
-                            <th>Comprovante</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="corpoTabela">
-                    </tbody>
-                </table>
+            <!-- Lista de pessoas -->
+            <div class="lista-pessoas" id="listaPessoas">
+                <!-- Preenchido via JavaScript -->
             </div>
 
+            <!-- Resumo do mês -->
             <div class="resumo">
                 <div class="resumo-item">
                     <span id="totalPessoas">0</span>
@@ -751,247 +424,95 @@
                     <span id="totalPendente">0</span>
                     <small>Pendentes</small>
                 </div>
-                <div class="resumo-item">
-                    <span id="totalComprovantes">0</span>
-                    <small>Comprovantes</small>
-                </div>
             </div>
+
+            <!-- Botão limpar mês -->
+            <button class="btn btn-vermelho" onclick="limparMes()">
+                🗑️ Limpar Pagamentos do Mês
+            </button>
         </div>
 
-        <!-- Aba de Histórico -->
-        <div id="abaHistorico" class="tab-content">
+        <!-- Aba Histórico -->
+        <div id="abaHistorico" class="conteudo-aba">
+            <!-- Filtros -->
             <div class="filtros">
-                <input type="text" class="filtro-input" id="filtroNome" placeholder="Buscar por nome..." oninput="filtrarHistorico()">
+                <input type="text" class="filtro-input" id="filtroNome" placeholder="Buscar nome..." oninput="filtrarHistorico()">
                 <select class="filtro-select" id="filtroStatus" onchange="filtrarHistorico()">
-                    <option value="todos">Todos os status</option>
+                    <option value="todos">Todos</option>
                     <option value="em-dia">Em dia</option>
-                    <option value="atrasado">Atrasado</option>
-                    <option value="parcial">Parcial</option>
+                    <option value="pendente">Pendente</option>
                 </select>
-                <button class="btn btn-exportar" onclick="exportarHistorico()">
-                    <span>📥</span> Exportar Relatório
-                </button>
             </div>
 
-            <div class="resumo-global">
-                <h3>📊 Resumo Global</h3>
-                <div class="metricas-globais" id="metricasGlobais">
-                    <!-- Preenchido via JavaScript -->
-                </div>
-            </div>
-
-            <div id="historicoContainer">
+            <!-- Histórico -->
+            <div id="historicoLista">
                 <!-- Preenchido via JavaScript -->
             </div>
+
+            <!-- Botão exportar -->
+            <button class="btn btn-verde" onclick="exportarDados()">
+                📥 Exportar Dados
+            </button>
         </div>
 
-        <div class="acoes-gerais">
-            <button class="btn btn-limpar" onclick="limparTodosDados()">
-                <span>🗑️</span> Limpar Todos os Dados
-            </button>
-            <div class="espaco-uso">
-                <div>Espaço: <span id="espacoUsado">0 KB</span> / <span id="espacoLimite">5 MB</span></div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressoEspaco" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
+        <!-- Botão limpar tudo -->
+        <button class="btn btn-vermelho" onclick="limparTudo()" style="margin-top: 10px;">
+            🗑️ Limpar Todos os Dados
+        </button>
     </div>
 
-    <!-- Modal para visualizar imagens -->
-    <div id="imageModal" class="modal">
-        <span class="close-modal" onclick="fecharModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
+    <!-- Modal para comprovante -->
+    <div id="modalComprovante" class="modal">
+        <span class="fechar-modal" onclick="fecharModal()">&times;</span>
+        <img class="modal-conteudo" id="imagemModal">
     </div>
 
     <script>
-        // Nomes dos meses em português
+        // Meses em português
         const meses = [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
         ];
 
-        // Estado da aplicação
+        // Dados
         let pessoas = [];
         let mesSelecionado = new Date().getMonth();
         let anoSelecionado = new Date().getFullYear();
-        const LIMITE_ARMAZENAMENTO = 5 * 1024 * 1024; // 5 MB em bytes
 
-        // Carregar dados salvos
+        // Carregar dados
         function carregarDados() {
-            const dadosSalvos = localStorage.getItem('controleFormaturaResponsivo');
-            if (dadosSalvos) {
+            const salvos = localStorage.getItem('formatura');
+            if (salvos) {
                 try {
-                    const dados = JSON.parse(dadosSalvos);
-                    pessoas = dados.pessoas || [];
-                    
-                    // Garantir que todas as pessoas tenham a estrutura correta
-                    pessoas = pessoas.map(pessoa => {
-                        if (!pessoa.pagamentos) {
-                            pessoa.pagamentos = [];
-                        }
-                        if (!pessoa.comprovantes) {
-                            pessoa.comprovantes = {};
-                        }
-                        return pessoa;
-                    });
+                    pessoas = JSON.parse(salvos);
                 } catch (e) {
-                    console.error('Erro ao carregar dados:', e);
                     pessoas = [];
                 }
             }
-            atualizarTabela();
-            atualizarHistorico();
-            atualizarEspacoUtilizado();
+            atualizarTela();
         }
 
         // Salvar dados
         function salvarDados() {
-            try {
-                localStorage.setItem('controleFormaturaResponsivo', JSON.stringify({ pessoas }));
-                atualizarEspacoUtilizado();
-                atualizarHistorico();
-            } catch (e) {
-                if (e.name === 'QuotaExceededError') {
-                    alert('Espaço de armazenamento excedido! Remova alguns comprovantes antigos para liberar espaço.');
-                } else {
-                    console.error('Erro ao salvar dados:', e);
-                }
-            }
+            localStorage.setItem('formatura', JSON.stringify(pessoas));
         }
 
-        // Mudar de aba
+        // Mudar aba
         function mudarAba(aba) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.aba').forEach(b => b.classList.remove('ativa'));
+            document.querySelectorAll('.conteudo-aba').forEach(c => c.classList.remove('ativa'));
             
             if (aba === 'mensal') {
-                document.querySelectorAll('.tab')[0].classList.add('active');
-                document.getElementById('abaMensal').classList.add('active');
+                document.querySelectorAll('.aba')[0].classList.add('ativa');
+                document.getElementById('abaMensal').classList.add('ativa');
             } else {
-                document.querySelectorAll('.tab')[1].classList.add('active');
-                document.getElementById('abaHistorico').classList.add('active');
+                document.querySelectorAll('.aba')[1].classList.add('ativa');
+                document.getElementById('abaHistorico').classList.add('ativa');
                 atualizarHistorico();
             }
         }
 
-        // Calcular espaço utilizado
-        function calcularEspacoUtilizado() {
-            const dados = JSON.stringify({ pessoas });
-            return new Blob([dados]).size;
-        }
-
-        // Atualizar indicador de espaço
-        function atualizarEspacoUtilizado() {
-            const espaco = calcularEspacoUtilizado();
-            const espacoKB = (espaco / 1024).toFixed(2);
-            const espacoMB = (espaco / (1024 * 1024)).toFixed(2);
-            const porcentagem = (espaco / LIMITE_ARMAZENAMENTO) * 100;
-            
-            document.getElementById('espacoUsado').textContent = espaco < 1024 * 1024 ? 
-                `${espacoKB} KB` : `${espacoMB} MB`;
-            document.getElementById('progressoEspaco').style.width = `${Math.min(porcentagem, 100)}%`;
-            
-            if (porcentagem > 90) {
-                document.getElementById('progressoEspaco').style.background = '#f56565';
-            } else if (porcentagem > 70) {
-                document.getElementById('progressoEspaco').style.background = '#ed8936';
-            } else {
-                document.getElementById('progressoEspaco').style.background = '#48bb78';
-            }
-        }
-
-        // Upload de comprovante
-        function uploadComprovante(id, mes, event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith('image/')) {
-                alert('Por favor, selecione apenas imagens!');
-                return;
-            }
-
-            if (file.size > 2 * 1024 * 1024) {
-                alert('A imagem deve ter no máximo 2MB!');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const pessoa = pessoas.find(p => p.id === id);
-                if (pessoa) {
-                    if (!pessoa.comprovantes) {
-                        pessoa.comprovantes = {};
-                    }
-                    
-                    const chaveMes = `${anoSelecionado}-${mes}`;
-                    
-                    pessoa.comprovantes[chaveMes] = {
-                        data: e.target.result,
-                        nome: file.name,
-                        tipo: file.type,
-                        tamanho: file.size
-                    };
-                    
-                    if (!pessoa.pagamentos[mes]) {
-                        pessoa.pagamentos[mes] = false;
-                    }
-                    pessoa.pagamentos[mes] = true;
-                    
-                    salvarDados();
-                    atualizarTabela();
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Visualizar comprovante
-        function visualizarComprovante(id, mes) {
-            const pessoa = pessoas.find(p => p.id === id);
-            if (!pessoa) return;
-            
-            const chaveMes = `${anoSelecionado}-${mes}`;
-            const comprovante = pessoa.comprovantes?.[chaveMes];
-            
-            if (comprovante) {
-                const modal = document.getElementById('imageModal');
-                const modalImg = document.getElementById('modalImage');
-                modal.style.display = "block";
-                modalImg.src = comprovante.data;
-            }
-        }
-
-        // Remover comprovante
-        function removerComprovante(id, mes) {
-            if (confirm('Tem certeza que deseja remover este comprovante?')) {
-                const pessoa = pessoas.find(p => p.id === id);
-                if (pessoa) {
-                    const chaveMes = `${anoSelecionado}-${mes}`;
-                    if (pessoa.comprovantes) {
-                        delete pessoa.comprovantes[chaveMes];
-                    }
-                    
-                    if (pessoa.pagamentos[mes]) {
-                        pessoa.pagamentos[mes] = false;
-                    }
-                    
-                    salvarDados();
-                    atualizarTabela();
-                }
-            }
-        }
-
-        // Fechar modal
-        function fecharModal() {
-            document.getElementById('imageModal').style.display = "none";
-        }
-
-        // Atualizar display do mês atual
-        function atualizarDisplayMes() {
-            document.getElementById('mesAtual').textContent = `${meses[mesSelecionado]} ${anoSelecionado}`;
-        }
-
-        // Navegar entre meses
+        // Navegar meses
         function mesAnterior() {
             if (mesSelecionado === 0) {
                 mesSelecionado = 11;
@@ -999,8 +520,7 @@
             } else {
                 mesSelecionado--;
             }
-            atualizarDisplayMes();
-            atualizarTabela();
+            atualizarTela();
         }
 
         function proximoMes() {
@@ -1010,506 +530,290 @@
             } else {
                 mesSelecionado++;
             }
-            atualizarDisplayMes();
-            atualizarTabela();
+            atualizarTela();
         }
 
-        // Adicionar nova pessoa
+        // Adicionar pessoa
         function adicionarPessoa() {
             const input = document.getElementById('nomePessoa');
             const nome = input.value.trim();
             
             if (nome === '') {
-                alert('Por favor, digite um nome!');
+                alert('Digite um nome!');
                 return;
             }
 
-            const novaPessoa = {
+            pessoas.push({
                 id: Date.now(),
                 nome: nome,
                 pagamentos: [],
                 comprovantes: {}
-            };
+            });
 
-            pessoas.push(novaPessoa);
             input.value = '';
             salvarDados();
-            atualizarTabela();
+            atualizarTela();
         }
 
-        // Alternar status de pagamento
-        function togglePagamento(id, mes) {
+        // Alternar pagamento
+        function togglePagamento(id) {
             const pessoa = pessoas.find(p => p.id === id);
             if (pessoa) {
-                if (!pessoa.pagamentos[mes]) {
-                    pessoa.pagamentos[mes] = false;
+                if (!pessoa.pagamentos[mesSelecionado]) {
+                    pessoa.pagamentos[mesSelecionado] = false;
                 }
-                pessoa.pagamentos[mes] = !pessoa.pagamentos[mes];
-                
-                if (!pessoa.pagamentos[mes]) {
-                    const chaveMes = `${anoSelecionado}-${mes}`;
-                    if (pessoa.comprovantes?.[chaveMes]) {
-                        if (confirm('Deseja também remover o comprovante anexado?')) {
-                            delete pessoa.comprovantes[chaveMes];
-                        }
-                    }
-                }
-                
+                pessoa.pagamentos[mesSelecionado] = !pessoa.pagamentos[mesSelecionado];
                 salvarDados();
-                atualizarTabela();
+                atualizarTela();
             }
         }
 
-        // Verificar status do pagamento
-        function getStatusPagamento(id, mes) {
-            const pessoa = pessoas.find(p => p.id === id);
-            return pessoa && pessoa.pagamentos && pessoa.pagamentos[mes] === true;
+        // Upload comprovante
+        function uploadComprovante(id, event) {
+            const file = event.target.files[0];
+            if (!file || !file.type.startsWith('image/')) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Imagem muito grande! Máximo 2MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const pessoa = pessoas.find(p => p.id === id);
+                if (pessoa) {
+                    const chave = `${anoSelecionado}-${mesSelecionado}`;
+                    if (!pessoa.comprovantes) pessoa.comprovantes = {};
+                    
+                    pessoa.comprovantes[chave] = {
+                        data: e.target.result,
+                        nome: file.name
+                    };
+                    
+                    pessoa.pagamentos[mesSelecionado] = true;
+                    salvarDados();
+                    atualizarTela();
+                }
+            };
+            reader.readAsDataURL(file);
         }
 
-        // Verificar se tem comprovante
-        function temComprovante(id, mes) {
+        // Ver comprovante
+        function verComprovante(id) {
             const pessoa = pessoas.find(p => p.id === id);
-            if (!pessoa || !pessoa.comprovantes) return false;
+            if (!pessoa) return;
             
-            const chaveMes = `${anoSelecionado}-${mes}`;
-            return !!pessoa.comprovantes[chaveMes];
+            const chave = `${anoSelecionado}-${mesSelecionado}`;
+            const comp = pessoa.comprovantes?.[chave];
+            
+            if (comp) {
+                document.getElementById('imagemModal').src = comp.data;
+                document.getElementById('modalComprovante').style.display = 'block';
+            }
         }
 
-        // Obter nome do comprovante
-        function getNomeComprovante(id, mes) {
-            const pessoa = pessoas.find(p => p.id === id);
-            if (!pessoa || !pessoa.comprovantes) return '';
-            
-            const chaveMes = `${anoSelecionado}-${mes}`;
-            return pessoa.comprovantes[chaveMes]?.nome || '';
+        // Fechar modal
+        function fecharModal() {
+            document.getElementById('modalComprovante').style.display = 'none';
         }
 
         // Remover pessoa
         function removerPessoa(id) {
-            if (confirm('Tem certeza que deseja remover esta pessoa? Todos os comprovantes serão apagados!')) {
+            if (confirm('Remover esta pessoa?')) {
                 pessoas = pessoas.filter(p => p.id !== id);
                 salvarDados();
-                atualizarTabela();
+                atualizarTela();
             }
         }
 
-        // Limpar todos os pagamentos do mês atual
-        function limparTodosPagamentos() {
-            if (pessoas.length === 0) return;
+        // Limpar mês atual
+        function limparMes() {
+            if (!pessoas.length) return;
             
-            if (confirm(`Deseja limpar todos os pagamentos e comprovantes de ${meses[mesSelecionado]} ${anoSelecionado}?`)) {
-                pessoas.forEach(pessoa => {
-                    if (pessoa.pagamentos) {
-                        pessoa.pagamentos[mesSelecionado] = false;
-                    }
-                    if (pessoa.comprovantes) {
-                        const chaveMes = `${anoSelecionado}-${mesSelecionado}`;
-                        delete pessoa.comprovantes[chaveMes];
-                    }
+            if (confirm(`Limpar pagamentos de ${meses[mesSelecionado]}/${anoSelecionado}?`)) {
+                pessoas.forEach(p => {
+                    p.pagamentos[mesSelecionado] = false;
+                    const chave = `${anoSelecionado}-${mesSelecionado}`;
+                    if (p.comprovantes) delete p.comprovantes[chave];
                 });
                 salvarDados();
-                atualizarTabela();
+                atualizarTela();
             }
         }
 
-        // Limpar todos os dados
-        function limparTodosDados() {
-            if (confirm('Tem certeza que deseja apagar TODOS os dados? Esta ação não pode ser desfeita!')) {
+        // Limpar tudo
+        function limparTudo() {
+            if (confirm('Apagar TODOS os dados?')) {
                 pessoas = [];
-                localStorage.removeItem('controleFormaturaResponsivo');
-                atualizarTabela();
-                atualizarHistorico();
-                atualizarEspacoUtilizado();
+                localStorage.removeItem('formatura');
+                atualizarTela();
             }
         }
 
-        // Atualizar resumo mensal
-        function atualizarResumo() {
-            const totalPessoas = pessoas.length;
-            const totalPago = pessoas.filter(p => getStatusPagamento(p.id, mesSelecionado)).length;
-            const totalPendente = totalPessoas - totalPago;
+        // Atualizar tela mensal
+        function atualizarTela() {
+            document.getElementById('mesAtual').textContent = `${meses[mesSelecionado]} ${anoSelecionado}`;
             
-            let totalComprovantes = 0;
-            pessoas.forEach(pessoa => {
-                if (pessoa.comprovantes) {
-                    const chaveMes = `${anoSelecionado}-${mesSelecionado}`;
-                    if (pessoa.comprovantes[chaveMes]) totalComprovantes++;
-                }
-            });
-
-            document.getElementById('totalPessoas').textContent = totalPessoas;
-            document.getElementById('totalPago').textContent = totalPago;
-            document.getElementById('totalPendente').textContent = totalPendente;
-            document.getElementById('totalComprovantes').textContent = totalComprovantes;
-        }
-
-        // Atualizar tabela mensal
-        function atualizarTabela() {
-            const tbody = document.getElementById('corpoTabela');
+            const lista = document.getElementById('listaPessoas');
             
             if (pessoas.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="4" style="text-align: center; padding: 30px; color: #666;">
-                            Nenhuma pessoa cadastrada. Adicione uma pessoa para começar!
-                        </td>
-                    </tr>
-                `;
-                atualizarResumo();
+                lista.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">Nenhuma pessoa cadastrada</p>';
+                document.getElementById('totalPessoas').textContent = '0';
+                document.getElementById('totalPago').textContent = '0';
+                document.getElementById('totalPendente').textContent = '0';
                 return;
             }
 
             let html = '';
+            let totalPago = 0;
+
             pessoas.sort((a, b) => a.nome.localeCompare(b.nome));
 
-            pessoas.forEach(pessoa => {
-                const pago = getStatusPagamento(pessoa.id, mesSelecionado);
-                const temComp = temComprovante(pessoa.id, mesSelecionado);
-                const nomeComp = getNomeComprovante(pessoa.id, mesSelecionado);
-                
-                let comprovanteHtml = '';
-                if (temComp) {
-                    comprovanteHtml = `
-                        <div class="file-info">
-                            <span>📎</span>
-                            <span>${nomeComp.substring(0, 15)}${nomeComp.length > 15 ? '...' : ''}</span>
-                            <a href="#" class="comprovante-link" onclick="visualizarComprovante(${pessoa.id}, ${mesSelecionado})">👁️</a>
-                            <span class="remover-comprovante" onclick="removerComprovante(${pessoa.id}, ${mesSelecionado})">❌</span>
-                        </div>
-                    `;
-                } else {
-                    comprovanteHtml = `
-                        <div class="upload-container">
-                            <input type="file" id="file-${pessoa.id}" accept="image/*" style="display: none;" 
-                                   onchange="uploadComprovante(${pessoa.id}, ${mesSelecionado}, event)">
-                            <button class="upload-btn" onclick="document.getElementById('file-${pessoa.id}').click()">
-                                📎 Anexar
-                            </button>
-                        </div>
-                    `;
-                }
-                
+            pessoas.forEach(p => {
+                const pago = p.pagamentos && p.pagamentos[mesSelecionado] === true;
+                if (pago) totalPago++;
+
+                const chave = `${anoSelecionado}-${mesSelecionado}`;
+                const temComprovante = p.comprovantes && p.comprovantes[chave];
+
                 html += `
-                    <tr>
-                        <td>${pessoa.nome}</td>
-                        <td>
-                            <span class="status-badge ${pago ? 'pago' : 'pendente'}">
-                                ${pago ? '✅' : '⏳'}
+                    <div class="pessoa-item">
+                        <div class="info-pessoa">
+                            <span class="nome-pessoa">${p.nome}</span>
+                            <span class="status ${pago ? 'pago' : 'pendente'}">
+                                ${pago ? 'PAGO' : 'PENDENTE'}
                             </span>
-                        </td>
-                        <td>${comprovanteHtml}</td>
-                        <td>
-                            <button class="btn-toggle ${pago ? 'btn-pendente' : 'btn-pago'}" 
-                                    onclick="togglePagamento(${pessoa.id}, ${mesSelecionado})">
-                                ${pago ? 'Pendente' : 'Pago'}
+                        </div>
+                        <div class="acoes">
+                            ${!temComprovante ? `
+                                <input type="file" id="file-${p.id}" accept="image/*" style="display:none" onchange="uploadComprovante(${p.id}, event)">
+                                <button class="acao-btn btn-azul" onclick="document.getElementById('file-${p.id}').click()">📎</button>
+                            ` : `
+                                <button class="acao-btn btn-azul" onclick="verComprovante(${p.id})">👁️</button>
+                            `}
+                            <button class="acao-btn ${pago ? 'btn-pendente' : 'btn-pagar'}" onclick="togglePagamento(${p.id})">
+                                ${pago ? 'Pendente' : 'Pagar'}
                             </button>
-                            <button class="btn-remover" onclick="removerPessoa(${pessoa.id})">
-                                🗑️
-                            </button>
-                        </td>
-                    </tr>
+                            <button class="acao-btn btn-remover" onclick="removerPessoa(${p.id})">✕</button>
+                        </div>
+                    </div>
                 `;
             });
 
-            tbody.innerHTML = html;
-            atualizarResumo();
+            lista.innerHTML = html;
+            document.getElementById('totalPessoas').textContent = pessoas.length;
+            document.getElementById('totalPago').textContent = totalPago;
+            document.getElementById('totalPendente').textContent = pessoas.length - totalPago;
         }
 
-        // Funções do Histórico
+        // Atualizar histórico
         function atualizarHistorico() {
-            atualizarMetricasGlobais();
-            
             const filtroNome = document.getElementById('filtroNome')?.value.toLowerCase() || '';
             const filtroStatus = document.getElementById('filtroStatus')?.value || 'todos';
             
             let pessoasFiltradas = pessoas.filter(p => 
                 p.nome.toLowerCase().includes(filtroNome)
             );
-            
-            if (filtroStatus !== 'todos') {
-                pessoasFiltradas = pessoasFiltradas.filter(p => {
-                    const status = calcularStatusPessoa(p);
-                    return status === filtroStatus;
-                });
-            }
-            
-            const container = document.getElementById('historicoContainer');
+
+            const lista = document.getElementById('historicoLista');
             
             if (pessoasFiltradas.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 30px; color: #666;">
-                        Nenhuma pessoa encontrada.
-                    </div>
-                `;
+                lista.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">Nenhuma pessoa encontrada</p>';
                 return;
             }
-            
+
             let html = '';
             pessoasFiltradas.sort((a, b) => a.nome.localeCompare(b.nome));
-            
-            pessoasFiltradas.forEach(pessoa => {
-                const pagamentos = calcularPagamentosPessoa(pessoa);
-                const status = calcularStatusPessoa(pessoa);
-                const mesesPagos = pagamentos.filter(m => m.pago).length;
-                const totalMeses = pagamentos.length;
-                
-                let statusText = '';
-                let statusClass = '';
-                if (status === 'em-dia') {
-                    statusText = '✅ Em dia';
-                    statusClass = 'pago';
-                } else if (status === 'atrasado') {
-                    statusText = '⚠️ Atrasado';
-                    statusClass = 'pendente';
-                } else {
-                    statusText = '⏳ Parcial';
-                    statusClass = 'pendente';
-                }
-                
-                html += `
-                    <div class="historico-pessoa">
-                        <div class="pessoa-header" onclick="toggleExpandirPessoa(${pessoa.id})">
-                            <div class="pessoa-nome">
-                                <span>👤 ${pessoa.nome}</span>
-                                <span class="status-badge ${statusClass}">${statusText}</span>
-                            </div>
-                            <div class="pessoa-status">
-                                <span>${mesesPagos}/${totalMeses}</span>
-                                <span class="seta" id="seta-${pessoa.id}">▶</span>
-                            </div>
-                        </div>
-                        
-                        <div class="estatisticas-pessoa">
-                            <div class="estatistica-item">
-                                <span class="estatistica-valor">${mesesPagos}</span>
-                                <span class="estatistica-label">Pagos</span>
-                            </div>
-                            <div class="estatistica-item">
-                                <span class="estatistica-valor">${totalMeses - mesesPagos}</span>
-                                <span class="estatistica-label">Pendentes</span>
-                            </div>
-                            <div class="estatistica-item">
-                                <span class="estatistica-valor">${((mesesPagos / totalMeses) * 100).toFixed(0)}%</span>
-                                <span class="estatistica-label">Total</span>
-                            </div>
-                        </div>
-                        
-                        <div class="meses-grid" id="meses-${pessoa.id}" style="display: none;">
-                            ${gerarMesesGrid(pessoa, pagamentos)}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-        }
 
-        function toggleExpandirPessoa(id) {
-            const mesesDiv = document.getElementById(`meses-${id}`);
-            const seta = document.getElementById(`seta-${id}`);
-            
-            if (mesesDiv.style.display === 'none') {
-                mesesDiv.style.display = 'grid';
-                seta.classList.add('expandida');
-            } else {
-                mesesDiv.style.display = 'none';
-                seta.classList.remove('expandida');
-            }
-        }
-
-        function calcularPagamentosPessoa(pessoa) {
-            const pagamentos = [];
-            const hoje = new Date();
-            const mesAtual = hoje.getMonth();
-            const anoAtual = hoje.getFullYear();
-            
-            for (let i = 0; i < 12; i++) {
-                let mes = mesAtual - i;
-                let ano = anoAtual;
+            pessoasFiltradas.forEach(p => {
+                // Calcular últimos 6 meses
+                const pagamentos = [];
+                const hoje = new Date();
                 
-                if (mes < 0) {
-                    mes += 12;
-                    ano -= 1;
-                }
-                
-                if (ano >= 2024) {
-                    const chaveMes = `${ano}-${mes}`;
-                    const pago = pessoa.pagamentos && pessoa.pagamentos[mes] === true;
-                    const temComprovante = pessoa.comprovantes && pessoa.comprovantes[chaveMes];
+                for (let i = 5; i >= 0; i--) {
+                    let mes = hoje.getMonth() - i;
+                    let ano = hoje.getFullYear();
                     
-                    pagamentos.unshift({
-                        mes,
-                        ano,
-                        pago,
-                        temComprovante
-                    });
+                    while (mes < 0) {
+                        mes += 12;
+                        ano -= 1;
+                    }
+                    
+                    const pago = p.pagamentos && p.pagamentos[mes] === true;
+                    pagamentos.push({ mes, ano, pago });
                 }
-            }
-            
-            return pagamentos;
-        }
 
-        function calcularStatusPessoa(pessoa) {
-            const pagamentos = calcularPagamentosPessoa(pessoa);
-            const hoje = new Date();
-            const mesAtual = hoje.getMonth();
-            const anoAtual = hoje.getFullYear();
-            
-            const ultimoPagamento = pagamentos[pagamentos.length - 1];
-            
-            if (!ultimoPagamento) return 'parcial';
-            
-            if (ultimoPagamento.mes === mesAtual && ultimoPagamento.ano === anoAtual) {
-                return ultimoPagamento.pago ? 'em-dia' : 'atrasado';
-            }
-            
-            const pagamentosRecentes = pagamentos.slice(-3);
-            const todosPagos = pagamentosRecentes.every(p => p.pago);
-            
-            if (todosPagos) return 'em-dia';
-            if (pagamentosRecentes.some(p => p.pago)) return 'parcial';
-            return 'atrasado';
-        }
+                const mesesPagos = pagamentos.filter(m => m.pago).length;
+                const emDia = pagamentos[pagamentos.length - 1]?.pago;
 
-        function gerarMesesGrid(pessoa, pagamentos) {
-            let html = '';
-            
-            pagamentos.forEach(p => {
-                const statusClass = p.pago ? 'pago' : 'pendente';
-                const statusText = p.pago ? '✅' : '⏳';
-                const comprovanteIcon = p.temComprovante ? '📎' : '';
-                
+                if (filtroStatus === 'em-dia' && !emDia) return;
+                if (filtroStatus === 'pendente' && emDia) return;
+
                 html += `
-                    <div class="mes-card">
-                        <div class="mes-nome">${meses[p.mes].substring(0,3)}/${p.ano}</div>
-                        <div class="mes-status">
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                            ${comprovanteIcon}
+                    <div class="card-historico">
+                        <div class="card-header">
+                            <span class="card-nome">${p.nome}</span>
+                            <span class="card-status ${emDia ? 'pago' : 'pendente'}">
+                                ${emDia ? '✅ Em dia' : '⏳ Pendente'}
+                            </span>
+                        </div>
+                        <div class="meses-pagos">
+                            Pagamentos: ${mesesPagos}/6 meses
+                        </div>
+                        <div class="lista-meses">
+                            ${pagamentos.map(m => `
+                                <span class="mes-badge ${m.pago ? 'pago' : ''}">
+                                    ${meses[m.mes]}/${m.ano}
+                                </span>
+                            `).join('')}
                         </div>
                     </div>
                 `;
             });
-            
-            return html;
+
+            lista.innerHTML = html;
         }
 
-        function atualizarMetricasGlobais() {
-            const totalPessoas = pessoas.length;
-            let totalPagamentos = 0;
-            let totalComprovantes = 0;
-            let pessoasEmDia = 0;
-            let pessoasAtrasadas = 0;
-            let pessoasParciais = 0;
-            
-            pessoas.forEach(pessoa => {
-                const pagamentos = calcularPagamentosPessoa(pessoa);
-                const pagos = pagamentos.filter(p => p.pago).length;
-                totalPagamentos += pagos;
-                
-                pagamentos.forEach(p => {
-                    if (p.temComprovante) totalComprovantes++;
-                });
-                
-                const status = calcularStatusPessoa(pessoa);
-                if (status === 'em-dia') pessoasEmDia++;
-                else if (status === 'atrasado') pessoasAtrasadas++;
-                else pessoasParciais++;
-            });
-            
-            const totalMesesPossiveis = pessoas.length * 12;
-            const percentualGeral = totalMesesPossiveis > 0 
-                ? ((totalPagamentos / totalMesesPossiveis) * 100).toFixed(0) 
-                : 0;
-            
-            const metricasHtml = `
-                <div class="metrica">
-                    <div class="metrica-valor">${totalPagamentos}</div>
-                    <div class="metrica-label">Pagamentos</div>
-                </div>
-                <div class="metrica">
-                    <div class="metrica-valor">${totalComprovantes}</div>
-                    <div class="metrica-label">Comprovantes</div>
-                </div>
-                <div class="metrica">
-                    <div class="metrica-valor">${pessoasEmDia}</div>
-                    <div class="metrica-label">Em dia</div>
-                </div>
-                <div class="metrica">
-                    <div class="metrica-valor">${pessoasParciais}</div>
-                    <div class="metrica-label">Parcial</div>
-                </div>
-                <div class="metrica">
-                    <div class="metrica-valor">${pessoasAtrasadas}</div>
-                    <div class="metrica-label">Atrasados</div>
-                </div>
-                <div class="metrica">
-                    <div class="metrica-valor">${percentualGeral}%</div>
-                    <div class="metrica-label">Geral</div>
-                </div>
-            `;
-            
-            document.getElementById('metricasGlobais').innerHTML = metricasHtml;
-        }
-
+        // Filtrar histórico
         function filtrarHistorico() {
             atualizarHistorico();
         }
 
-        function exportarHistorico() {
-            let relatorio = "RELATÓRIO DE PAGAMENTOS - FORMATURA\n";
-            relatorio += "=".repeat(40) + "\n\n";
-            relatorio += `Data: ${new Date().toLocaleDateString('pt-BR')}\n`;
-            relatorio += `Total de pessoas: ${pessoas.length}\n\n`;
+        // Exportar dados
+        function exportarDados() {
+            let texto = "CONTROLE DE PAGAMENTOS - FORMATURA\n\n";
             
             pessoas.sort((a, b) => a.nome.localeCompare(b.nome));
             
-            pessoas.forEach(pessoa => {
-                relatorio += `\n👤 ${pessoa.nome}\n`;
-                relatorio += "-".repeat(20) + "\n";
+            pessoas.forEach(p => {
+                texto += `${p.nome}\n`;
+                texto += "-".repeat(20) + "\n";
                 
-                const pagamentos = calcularPagamentosPessoa(pessoa);
-                const pagos = pagamentos.filter(p => p.pago).length;
-                
-                relatorio += `Meses pagos: ${pagos}/${pagamentos.length}\n`;
-                relatorio += `Percentual: ${((pagos/pagamentos.length)*100).toFixed(0)}%\n\n`;
-                
-                pagamentos.forEach(p => {
-                    const status = p.pago ? "PAGO" : "PENDENTE";
-                    const comprovante = p.temComprovante ? " (com comprovante)" : "";
-                    relatorio += `  ${meses[p.mes]}/${p.ano}: ${status}${comprovante}\n`;
-                });
-                relatorio += "\n";
+                for (let mes = 0; mes < 12; mes++) {
+                    const pago = p.pagamentos && p.pagamentos[mes] === true;
+                    texto += `  ${meses[mes]}: ${pago ? 'PAGO' : 'PENDENTE'}\n`;
+                }
+                texto += "\n";
             });
-            
-            const blob = new Blob([relatorio], { type: 'text/plain;charset=utf-8' });
+
+            const blob = new Blob([texto], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `relatorio-formatura-${new Date().toISOString().split('T')[0]}.txt`;
-            document.body.appendChild(a);
+            a.download = `formatura-${new Date().toISOString().split('T')[0]}.txt`;
             a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
         // Fechar modal ao clicar fora
         window.onclick = function(event) {
-            const modal = document.getElementById('imageModal');
+            const modal = document.getElementById('modalComprovante');
             if (event.target === modal) {
-                modal.style.display = "none";
+                modal.style.display = 'none';
             }
         }
 
         // Inicializar
-        atualizarDisplayMes();
         carregarDados();
-
-        // Adicionar evento de tecla Enter no input
-        document.getElementById('nomePessoa').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                adicionarPessoa();
-            }
-        });
     </script>
 </body>
 </html>
